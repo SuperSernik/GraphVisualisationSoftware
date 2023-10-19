@@ -29,6 +29,11 @@ class App:
     def Update(self, dt):
         for node in self.nodes:
             node.Update(dt)
+        keys=pygame.key.get_pressed()
+        if keys[pygame.K_SPACE]:
+            self.adj_matrix = self.create_adj_matrix(NODE_COUNT)
+
+
 
     def Draw(self, screen):
         self.draw_lines(screen)
