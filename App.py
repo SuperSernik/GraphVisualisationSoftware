@@ -1,84 +1,118 @@
 from Node import Node
+import os
 import pygame
 import random
 
-NODE_COUNT = 5
+NODE_COUNT = 12
+NODES_FILE_NAME = "nodes.csv"
+ADJ_MATRIX_FILE_NAME = "adj_matrix.csv"
 
 class App:
-    nodes = []
-
-    Xadj_matrix = [[0,0,1,0,0,0],
-                  [1,0,0,0,0,0],
-                  [0,0,0,0,0,0],
-                  [0,1,0,0,0,0],
-                  [0,1,0,0,0,0],
-                  [0,0,0,1,0,0]]
-    
+    nodes= []
     adj_matrix = [[]]
 
     def _init_(self):
-        self.nodes = []
+        pass
+        
         
     def Load(self):
-        for i in range(NODE_COUNT):
-            node = Node(id=str(i))
-            self.nodes.append(node) 
-
-        self.adj_matrix = self.create_adj_matrix(NODE_COUNT)
+        self.nodes = self.read_in_nodes_from_file(NODES_FILE_NAME)
+        self.adj_matrix = self.read_adj_matrix_from_file(ADJ_MATRIX_FILE_NAME)
+        
 
     def Update(self, dt):
-        for node in self.nodes:
-            node.Update(dt)
-        keys=pygame.key.get_pressed()
-        if keys[pygame.K_SPACE]:
-            self.adj_matrix = self.create_adj_matrix(NODE_COUNT)
-
+        for node in self.nodes: node.Update(dt)
 
 
     def Draw(self, screen):
-        self.draw_lines(screen)
+        self.draw_edges(screen)
 
         for i in range(len(self.nodes)):
-            self.nodes[i].Draw(screen)  
-
+            self.nodes[i].Draw(screen)
             
 
-    def draw_lines(self, screen):
-        font = pygame.font.SysFont("Arial", 30)
-
+    def draw_edges(self, screen):
         for i in range(len(self.adj_matrix)):
             for j in range(len(self.adj_matrix)):
                 if(self.adj_matrix[i][j] != 0):
                     if(i == j):
-                        rect_h = 90
-                        rect_w = 80
-                        node_rect = pygame.Rect(self.nodes[i].pos.x-(rect_w/2), 
-                                                self.nodes[i].pos.y-(rect_h/2)-40, 
-                                                rect_w, rect_h)
-                        pygame.draw.ellipse(screen, "white", node_rect, width=3)
-                        
-                        txtsurf = font.render(str(self.adj_matrix[i][j]), True, "grey")
-                        mid_loop_pos = pygame.Vector2(self.nodes[i].pos.x-10,
-                                                      self.nodes[i].pos.y-rect_h+15)
-                        screen.blit(txtsurf, mid_loop_pos)
-
+                        self.draw_self_loop(screen, i, j)
+                        self.draw_weights_for_self_loops(screen, i, j)
                     else:
                         pygame.draw.line(screen, "white", self.nodes[i].pos, self.nodes[j].pos, width=3)
+                        self.draw_weights_for_edges(screen, i, j)
 
-                        mid_line_pos = pygame.Vector2((self.nodes[i].pos.x + self.nodes[j].pos.x)/2,
-                                                    (self.nodes[i].pos.y + self.nodes[j].pos.y)/2)
+    def draw_self_loop(self, screen, i, j):
+        rect_h = 90
+        rect_w = 80
+        node_rect = pygame.Rect(self.nodes[i].pos.x-(rect_w/2), 
+                                self.nodes[i].pos.y-(rect_h/2)-40, 
+                                rect_w, rect_h)
+        pygame.draw.ellipse(screen, "white", node_rect, width=3)
 
-                        txtsurf = font.render(str(self.adj_matrix[i][j]), True, "grey")
-                        screen.blit(txtsurf, mid_line_pos)
+    def draw_weights_for_edges(self, screen, i, j):
+        font = pygame.font.SysFont("Arial", 30)
+        mid_line_pos = pygame.Vector2((self.nodes[i].pos.x + self.nodes[j].pos.x)/2,
+                                      (self.nodes[i].pos.y + self.nodes[j].pos.y)/2)
+
+        txtsurf = font.render(str(self.adj_matrix[i][j]), True, "grey")
+        screen.blit(txtsurf, mid_line_pos)
+
+    def draw_weights_for_self_loops(self, screen, i, j):
+        x_offset = 10
+        y_offset = 105
+        font = pygame.font.SysFont("Arial", 30)
+        txtsurf = font.render(str(self.adj_matrix[i][j]), True, "grey")
+        mid_loop_pos = pygame.Vector2(self.nodes[i].pos.x-x_offset,
+                                      self.nodes[i].pos.y-y_offset)
+        screen.blit(txtsurf, mid_loop_pos)
+
+
+
+    def set_adj_matrix(self):
+        keys=pygame.key.get_pressed()
+
+        if keys[pygame.K_SPACE]:
+            return self.create_random_adj_matrix(NODE_COUNT)
     
-    def create_adj_matrix(self, n):
-        out_matrix = [[0 for x in range(n)] for y in range(n)] 
-        print(out_matrix)
-        for i in range(n):
-            for j in range(n):
+    def create_random_adj_matrix(self, number_of_nodes):
+        out_matrix = [[0 for x in range(number_of_nodes)] for y in range(number_of_nodes)] 
+        for i in range(number_of_nodes):
+            for j in range(number_of_nodes):
                 if(out_matrix[i][j] == 0):
-                    out_matrix[i][j] = random.randint(0, 1)
+                    out_matrix[i][j] = random.randint(0, 2)
         return out_matrix
+    
+    def read_in_nodes_from_file(self, filename):
+        out_nodes = []
+        f = open(filename)
+        data = f.readlines()
+        for i in range(1, len(data)):
+            line = data[i]
+            line = line.replace("\n", "")
+            arr = line.split("\t")
+            new_node = Node(id=arr[0], color=arr[1], pos=pygame.Vector2(int(arr[2]),int(arr[3])))
+            out_nodes.append(new_node)
+        f.close()
+        return out_nodes
+    
+    def read_adj_matrix_from_file(self, filename):
+        out_mat = []
+        f = open(filename)
+        data = f.readlines()
+        for i in range(0, len(data)):
+            line = data[i]
+            line = line.replace("\n", "")
+            arr = line.split("\t")
+            new_arr = []
+            for x in arr:
+                 new_arr.append(int(x))
+            out_mat.append(new_arr)
+            new_arr = []
+        f.close()
+        return out_mat
+
+             
 
         
         
