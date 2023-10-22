@@ -5,6 +5,7 @@ import math
 NODE_RADIUS = 30
 
 class Node:
+    is_colliding = False
 
     def __init__(self, id = "x", color="white", pos=pygame.Vector2(100, 100)):
         self.id = "ID: " + id
@@ -34,6 +35,9 @@ class Node:
 
     def drag_and_move(self):
         left, mid, right = pygame.mouse.get_pressed(num_buttons=3)
-        if(self.has_collided() and left):         
-            self.pos.xy = pygame.mouse.get_pos()
+        if(self.has_collided()):        self.is_colliding = True
+        if(self.is_colliding and left): self.pos.xy = pygame.mouse.get_pos()              
+        if(not left):                   self.is_colliding = False
+            
+           
 

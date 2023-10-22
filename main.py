@@ -2,8 +2,6 @@ import pygame
 import time
 from App import App
 
-MOUSE_IN_USE = False
-
 X_RES = 1600
 Y_RES = 900  
 
@@ -29,14 +27,10 @@ while running:
     myapp.Update(dt)
     myapp.Draw(screen)
 
-
     pygame.display.flip()
-
 
     dt = clock.tick() / 1000
     pygame.display.set_caption(f"FPS: {clock.get_fps():.2f}")
     
-    
-
 pygame.quit()
 

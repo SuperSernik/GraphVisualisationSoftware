@@ -4,20 +4,29 @@ import pygame
 import random
 
 NODE_COUNT = 12
-NODES_FILE_NAME = "nodes.csv"
-ADJ_MATRIX_FILE_NAME = "adj_matrix.csv"
+NODES_FILE_NAME = "nodes_map.csv"
+ADJ_MATRIX_FILE_NAME = "adj_matrix_map.csv"
+
+COLORS = ["black", "blue", "cyan", "gold", "gray", "green", 
+          "orange", "purple", "red", "violet", "yellow", "white"]
+
+PATH_COLOR = "red"
+EDGE_COLOR = "white"
 
 class App:
-    nodes= []
+    nodes = []
+    node_ids = []
     adj_matrix = [[]]
+    path_matrix = [[]]
+    path = ["a", "e", "i", "j", "h", "l"]
 
     def _init_(self):
         pass
-        
-        
+            
     def Load(self):
         self.nodes = self.read_in_nodes_from_file(NODES_FILE_NAME)
         self.adj_matrix = self.read_adj_matrix_from_file(ADJ_MATRIX_FILE_NAME)
+        self.path_matrix = self.apply_path_to_path_matrix()
         
 
     def Update(self, dt):
@@ -26,9 +35,7 @@ class App:
 
     def Draw(self, screen):
         self.draw_edges(screen)
-
-        for i in range(len(self.nodes)):
-            self.nodes[i].Draw(screen)
+        for node in self.nodes: node.Draw(screen)
             
 
     def draw_edges(self, screen):
@@ -39,7 +46,8 @@ class App:
                         self.draw_self_loop(screen, i, j)
                         self.draw_weights_for_self_loops(screen, i, j)
                     else:
-                        pygame.draw.line(screen, "white", self.nodes[i].pos, self.nodes[j].pos, width=3)
+                        line_color = self.get_edge_color_for_path(i, j)
+                        pygame.draw.line(screen, line_color, self.nodes[i].pos, self.nodes[j].pos, width=3)
                         self.draw_weights_for_edges(screen, i, j)
 
     def draw_self_loop(self, screen, i, j):
@@ -67,6 +75,22 @@ class App:
                                       self.nodes[i].pos.y-y_offset)
         screen.blit(txtsurf, mid_loop_pos)
 
+    def get_edge_color_for_path(self, i, j):
+        if(self.path_matrix[i][j] == 1):
+            return PATH_COLOR
+        else:
+            return EDGE_COLOR
+
+    def apply_path_to_path_matrix(self):
+        out_path_matrix = [[0 for i in range(0, NODE_COUNT)] for i in range(0, NODE_COUNT)]
+        start_node = self.path[0]
+        for i in range(1, len(self.path)):
+            start, end = self.path[i-1], self.path[i]
+            x = self.node_ids.index(start)
+            y = self.node_ids.index(end)
+            out_path_matrix[x][y] = 1
+            out_path_matrix[y][x] = 1
+        return out_path_matrix
 
 
     def set_adj_matrix(self):
@@ -90,8 +114,9 @@ class App:
         for i in range(1, len(data)):
             line = data[i]
             line = line.replace("\n", "")
-            arr = line.split("\t")
+            arr = line.split(",")
             new_node = Node(id=arr[0], color=arr[1], pos=pygame.Vector2(int(arr[2]),int(arr[3])))
+            self.node_ids.append(arr[0])
             out_nodes.append(new_node)
         f.close()
         return out_nodes
@@ -103,7 +128,7 @@ class App:
         for i in range(0, len(data)):
             line = data[i]
             line = line.replace("\n", "")
-            arr = line.split("\t")
+            arr = line.split(",")
             new_arr = []
             for x in arr:
                  new_arr.append(int(x))

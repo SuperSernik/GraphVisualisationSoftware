@@ -9,7 +9,8 @@ def draw_lines():
     for i in range(len(adj_matrix)):
         for j in range(len(adj_matrix)):
             if(adj_matrix[i][j] == 1):
-                print(f"I:{i}, J:{j}")
+                #print(f"I:{i}, J:{j}")
+                pass
 
 colors = ["red", "blue", "yellow", "purple", "green", "cyan"]
 color_i = [x for x in colors]
@@ -35,6 +36,28 @@ mat = [[1,1,1,1],
        [1,1,1,1],
        [1,1,1,1]]
 
+path_matrix = [
+    [0,0,0,0,0,0,0,0,0,0,0,0],
+    [1,0,1,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,1,0,1,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,1,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0]]
+
+NODE_COUNT = 12
+
+matA = [0 for i in range(0, NODE_COUNT)]
+matB = [matA for i in range(0, len(matA))]
 
 
-print(read_adj_matrix_from_file("adj_matrix.csv"))
+matX =[[0 for i in range(0, NODE_COUNT)] for i in range(0, NODE_COUNT)]
+print(matX)
+print(len(matX))
+
+#print(read_adj_matrix_from_file("adj_matrix.csv"))
