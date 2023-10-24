@@ -34,10 +34,15 @@ class Menu:
         if(self.save_b.clicked_button()): 
             print("~Saving~")
             myapp.save_nodes_to_file()
+            myapp.save_adj_mat_to_file()
 
         if(self.load_b.clicked_button()):
             print("~Loading~")
-            myapp.load_nodes_from_saves()
+            myapp.load_from_saves()
+
+        if(self.circle_b.clicked_button()):
+            print("~Loading Circle~")
+            myapp.load_node_and_mat_templates("circle")
 
 
     def Draw(self, screen):

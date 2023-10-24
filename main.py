@@ -32,7 +32,6 @@ while running:
     mymenu.Update(dt, myapp)
     mymenu.Draw(screen)
 
-
     pygame.display.flip()
 
     dt = clock.tick() / 1000

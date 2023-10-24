@@ -12,7 +12,7 @@ class App:
         pass
             
     def Load(self):
-        self.nodes = self.read_in_nodes_from_file(NODES_FILE_NAME_PATH)
+        self.nodes = self.read_nodes_from_file(NODES_FILE_NAME_PATH)
         self.adj_matrix = self.read_adj_matrix_from_file(ADJ_MATRIX_FILE_NAME_PATH)
         self.path_matrix = self.apply_path_to_path_matrix()
         
@@ -69,7 +69,6 @@ class App:
 
     def apply_path_to_path_matrix(self):
         out_path_matrix = [[0 for i in range(0, NODE_COUNT)] for i in range(0, NODE_COUNT)]
-        start_node = self.path[0]
         for i in range(1, len(self.path)):
             start, end = self.path[i-1], self.path[i]
             x = self.node_ids.index(start)
@@ -90,7 +89,7 @@ class App:
             self.save_nodes_to_file()
 
         if keys[pygame.K_l]:
-            self.nodes = self.read_in_nodes_from_file(SAVED_NODES_FILE_PATH)
+            self.nodes = self.read_nodes_from_file(SAVED_NODES_FILE_PATH)
     
     def create_random_adj_matrix(self, number_of_nodes):
         out_matrix = [[0 for x in range(number_of_nodes)] for y in range(number_of_nodes)] 
@@ -100,7 +99,7 @@ class App:
                     out_matrix[i][j] = random.randint(0, 2)
         return out_matrix
     
-    def read_in_nodes_from_file(self, filename):
+    def read_nodes_from_file(self, filename):
         out_nodes = []
         f = open(filename)
         data = f.readlines()
@@ -142,8 +141,25 @@ class App:
         f.writelines(lines)
         f.close()
 
-    def load_nodes_from_saves(self):
-        self.nodes = self.read_in_nodes_from_file(SAVED_NODES_FILE_PATH)
+    def save_adj_mat_to_file(self):
+        f = open(SAVED_ADJ_MAT_FILE_PATH, "w")
+        for i in range(len(self.adj_matrix)):
+            for j in range(len(self.adj_matrix)):
+                if(j == len(self.adj_matrix)-1):
+                    f.write(str(self.adj_matrix[i][j]))
+                else:
+                    f.write(str(self.adj_matrix[i][j]) + ",")
+            f.write("\n")
+        f.close()
+
+    def load_from_saves(self):
+        self.nodes = self.read_nodes_from_file(SAVED_NODES_FILE_PATH)
+        self.adj_matrix = self.read_adj_matrix_from_file(SAVED_ADJ_MAT_FILE_PATH)
+
+    def load_node_and_mat_templates(self, template):
+        if template == "circle":
+            self.nodes = self.read_nodes_from_file("saves\\nodes_circle.csv")
+            self.adj_matrix = self.read_adj_matrix_from_file("saves\\adj_matrix_circle.csv")
 
 
              

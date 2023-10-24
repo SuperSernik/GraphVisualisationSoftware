@@ -11,7 +11,8 @@ NODE_RADIUS = 30
 NODES_FILE_NAME_PATH = "saves\\nodes_map.csv"
 ADJ_MATRIX_FILE_NAME_PATH = "saves\\adj_matrix_map.csv"
 
-SAVED_NODES_FILE_PATH = "saves\\SAVED_MAT.csv"
+SAVED_NODES_FILE_PATH = "saves\\SAVED_NODES.csv"
+SAVED_ADJ_MAT_FILE_PATH = "saves\\SAVED_MAT.csv"
 
 COLORS = ["black", "blue", "cyan", "gold", "gray", "green", 
           "orange", "purple", "red", "violet", "yellow", "white"]
