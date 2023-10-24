@@ -131,7 +131,7 @@ class App:
         return out_mat
     
     def save_nodes_to_file(self):
-        f = open("SAVED_MAT.csv", "w")
+        f = open(SAVED_NODES_FILE_PATH, "w")
         lines = []
         lines.append("ID,color,xpos,ypos\n")
 
