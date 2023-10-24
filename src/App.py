@@ -1,9 +1,10 @@
 from Globals import *
 from Node import Node
+from copy import deepcopy
 
 class App:
-    nodes = []
-    node_ids = []
+    nodes: list = []
+    node_ids: list = []
     adj_matrix = [[]]
     path_matrix = [[]]
     map_path = ["a", "e", "i", "j", "h", "l"]
@@ -16,11 +17,11 @@ class App:
     def Load(self):
         self.nodes = self.read_nodes_from_file(NODES_FILE_NAME_PATH)
         self.adj_matrix = self.read_adj_matrix_from_file(ADJ_MATRIX_FILE_NAME_PATH)
-        self.path_matrix = self.apply_path_to_path_matrix()
+        self.path_matrix = self.apply_path_to_path_matrix(self.path)
         
     def Update(self, dt):
         for node in self.nodes: node.Update(dt)
-        self.keybaord_controler()
+        self.input_manager()
         
     def Draw(self, screen):
         self.draw_edges(screen)
@@ -69,10 +70,14 @@ class App:
         else:
             return EDGE_COLOR
 
-    def apply_path_to_path_matrix(self):
+    def apply_path_to_path_matrix(self, path):
+        '''
+        TODO: The path matrix will still draw to the screen patchy
+                even if the nodes arent connected. Fix this.
+        '''
         out_path_matrix = [[0 for i in range(0, NODE_COUNT)] for i in range(0, NODE_COUNT)]
-        for i in range(1, len(self.path)):
-            start, end = self.path[i-1], self.path[i]
+        for i in range(1, len(path)):
+            start, end = path[i-1], path[i]
             x = self.node_ids.index(start)
             y = self.node_ids.index(end)
             out_path_matrix[x][y] = 1
@@ -80,11 +85,11 @@ class App:
         return out_path_matrix
 
 
-    def keybaord_controler(self):
+    def input_manager(self):
         keys=pygame.key.get_pressed()
 
         if keys[pygame.K_SPACE]:
-            return self.create_random_adj_matrix(NODE_COUNT)
+            self.adj_matrix = self.create_random_adj_matrix(NODE_COUNT)
         
         if keys[pygame.K_s]:
             print("Saving")
@@ -92,6 +97,12 @@ class App:
 
         if keys[pygame.K_l]:
             self.nodes = self.read_nodes_from_file(SAVED_NODES_FILE_PATH)
+
+        if keys[pygame.K_r]:
+            self.path = self.create_random_path(RANDOM_PATH_LENGTH)
+            self.path_matrix = self.apply_path_to_path_matrix(self.path)
+
+
     
     def create_random_adj_matrix(self, number_of_nodes):
         out_matrix = [[0 for x in range(number_of_nodes)] for y in range(number_of_nodes)] 
@@ -101,7 +112,20 @@ class App:
                     out_matrix[i][j] = random.randint(0, 2)
         return out_matrix
     
+    def create_random_path(self, lenght):
+        ids: list = deepcopy(self.node_ids)
+        out_path: list = []
+        
+        for i in range(0, lenght):
+           random_step = random.choice(ids)
+           ids.remove(random_step)
+           out_path.append(random_step)
+
+        return out_path
+
+    
     def read_nodes_from_file(self, filename):
+        self.node_ids = [] # otherwise it duplicates itself
         out_nodes = []
         f = open(filename)
         data = f.readlines()
@@ -162,17 +186,17 @@ class App:
         if template == "circle":
             self.nodes = self.read_nodes_from_file("saves\\nodes_circle.csv")
             self.adj_matrix = self.read_adj_matrix_from_file("saves\\adj_matrix_circle.csv")
-            self.apply_path_to_path_matrix()
+            self.apply_path_to_path_matrix(self.path)
 
         if template == "map":
             self.nodes = self.read_nodes_from_file("saves\\nodes_map.csv")
             self.adj_matrix = self.read_adj_matrix_from_file("saves\\adj_matrix_map.csv")
-            self.apply_path_to_path_matrix()
+            self.apply_path_to_path_matrix(self.path)
 
         if template == "tree":
             self.nodes = self.read_nodes_from_file("saves\\nodes_tree.csv")
             self.adj_matrix = self.read_adj_matrix_from_file("saves\\adj_matrix_tree.csv")
-            self.apply_path_to_path_matrix()
+            self.apply_path_to_path_matrix(self.path)
              
 
         

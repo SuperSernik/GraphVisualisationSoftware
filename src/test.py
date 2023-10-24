@@ -1,5 +1,7 @@
 from array import *
 import os
+from copy import deepcopy
+import random
 
 adj_matrix = [[0,1,0],
             [1,0,1],
@@ -14,6 +16,8 @@ def draw_lines():
 
 colors = ["red", "blue", "yellow", "purple", "green", "cyan"]
 color_i = [x for x in colors]
+
+NODE_IDS = ["a", "b", "c", "d", "e", "f", "g", "h", "i" ,"j", "k", "l"]
 
 def read_adj_matrix_from_file(filename):
         out_mat = []
@@ -59,12 +63,17 @@ matB = [matA for i in range(0, len(matA))]
 matX =[[0 for i in range(0, NODE_COUNT)] for i in range(0, NODE_COUNT)]
 
 
-def save_nodes_to_file():
-    f = open("SAVED_MAT.csv", "w")
-    lines = []
+def create_random_path(lenght):
+    ids: list = deepcopy(NODE_IDS)
+    out_path: list = []
+    
+    for i in range(0, lenght):
+        random_step = random.choice(ids)
+        ids.remove(random_step)
+        out_path.append(random_step)
 
-    lines[0] = "ID,color,xpos,ypos"
+    return out_path
 
-
-    f.writelines(lines)
-    f.close()
+for i in range(20):
+     print(create_random_path(8))
+     print(set(create_random_path(8)))
