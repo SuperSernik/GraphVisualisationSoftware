@@ -1,4 +1,4 @@
-from Globals import *
+NODE_COUNT = 12
 NODE_IDS = ["a", "b", "c", "d", "e", "f", "g", "h", "i" ,"j", "k", "l"]
 
 def from_connections_to_adj_matrix(connections):

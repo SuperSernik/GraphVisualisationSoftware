@@ -6,7 +6,9 @@ class App:
     node_ids = []
     adj_matrix = [[]]
     path_matrix = [[]]
-    path = ["a", "e", "i", "j", "h", "l"]
+    map_path = ["a", "e", "i", "j", "h", "l"]
+    circle_path = ["a", "b", "c", "e"]
+    path = ["a", "c", "h", "k", "j"]
 
     def _init_(self):
         pass
@@ -160,8 +162,17 @@ class App:
         if template == "circle":
             self.nodes = self.read_nodes_from_file("saves\\nodes_circle.csv")
             self.adj_matrix = self.read_adj_matrix_from_file("saves\\adj_matrix_circle.csv")
+            self.apply_path_to_path_matrix()
 
+        if template == "map":
+            self.nodes = self.read_nodes_from_file("saves\\nodes_map.csv")
+            self.adj_matrix = self.read_adj_matrix_from_file("saves\\adj_matrix_map.csv")
+            self.apply_path_to_path_matrix()
 
+        if template == "tree":
+            self.nodes = self.read_nodes_from_file("saves\\nodes_tree.csv")
+            self.adj_matrix = self.read_adj_matrix_from_file("saves\\adj_matrix_tree.csv")
+            self.apply_path_to_path_matrix()
              
 
         

@@ -44,6 +44,14 @@ class Menu:
             print("~Loading Circle~")
             myapp.load_node_and_mat_templates("circle")
 
+        if(self.map_b.clicked_button()):
+            print("~Loading map~")
+            myapp.load_node_and_mat_templates("map")
+
+        if(self.tree_b.clicked_button()):
+            print("~Loading Tree~")
+            myapp.load_node_and_mat_templates("tree")
+
 
     def Draw(self, screen):
         for button in self.buttons: button.Draw(screen)
