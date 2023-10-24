@@ -1,7 +1,7 @@
-from Globals import *
-from App import App
-from Button import Button
-from Menu import Menu
+from src.Globals import *
+from src.App import App
+from src.Button import Button
+from src.Menu import Menu
 
 pygame.init()
 

@@ -1,6 +1,5 @@
 import pygame 
 
-
 class Button:
 
     font_color = (255,255,255) 
