@@ -5,12 +5,15 @@ from src.Menu import Menu
 
 pygame.init()
 
+pygame_icon = pygame.image.load("icon.png")
+pygame.display.set_icon(pygame_icon)
+
 myapp = App()
 myapp.Load()
 
 mymenu = Menu()
 
-screen = pygame.display.set_mode((X_RES, Y_RES))
+screen = pygame.display.set_mode((X_RES, Y_RES), pygame.RESIZABLE)
 clock = pygame.time.Clock()
 running = True
 dt = 0
@@ -33,7 +36,7 @@ while running:
     pygame.display.flip()
 
     dt = clock.tick() / 1000
-    pygame.display.set_caption(f"FPS: {clock.get_fps():.2f}")
+    pygame.display.set_caption(f"GraphVisSoft  FPS: {clock.get_fps():.2f}  NODES: {NODE_COUNT}")
     
 pygame.quit()
 

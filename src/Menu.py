@@ -3,32 +3,39 @@ from Button import Button
 from App import App
 import sys
 
-
+BUTTON_COUNT = 6
 
 class Menu:
     buttons = []
 
     def __init__(self) -> None:
-        self.quit_button = Button(0, pygame.Vector2(0, 0), text="Quit")
-        self.save_button = Button(1, pygame.Vector2(0, 50), text="Save")
-        self.load_button = Button(2, pygame.Vector2(0, 100), text="Load")
+        self.quit_b     = Button(0, pygame.Vector2(0, 0), text="Quit")
+        self.save_b     = Button(1, pygame.Vector2(0, 50), text="Save")
+        self.load_b     = Button(2, pygame.Vector2(0, 100), text="Load")
+        self.circle_b   = Button(3, pygame.Vector2(0, 150), text="Circle")
+        self.map_b      = Button(4, pygame.Vector2(0, 200), text="Map")
+        self.tree_b     = Button(5, pygame.Vector2(0, 250), text="Tree")
+            
+        self.buttons.append(self.quit_b)
+        self.buttons.append(self.save_b)
+        self.buttons.append(self.load_b)
+        self.buttons.append(self.circle_b)
+        self.buttons.append(self.map_b)
+        self.buttons.append(self.tree_b)
 
-        self.buttons.append(self.quit_button)
-        self.buttons.append(self.save_button)
-        self.buttons.append(self.load_button)
 
 
     def Update(self, dt, myapp: App):
     
-        if (self.quit_button.clicked_button()):
+        if (self.quit_b.clicked_button()):
             print("~Quitting~")
             sys.exit()
             
-        if(self.save_button.clicked_button()): 
+        if(self.save_b.clicked_button()): 
             print("~Saving~")
             myapp.save_nodes_to_file()
 
-        if(self.load_button.clicked_button()):
+        if(self.load_b.clicked_button()):
             print("~Loading~")
             myapp.load_nodes_from_saves()
 

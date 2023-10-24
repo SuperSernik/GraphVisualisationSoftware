@@ -24,8 +24,8 @@ class Node:
         
     def write_text(self, screen):
         font = pygame.font.SysFont("Arial", 20)
-        txtsurf = font.render("ID" + self.id, True, "black")
-        screen.blit(txtsurf, (self.pos.x - 20, self.pos.y - 10))
+        txtsurf = font.render(self.id, True, "black")
+        screen.blit(txtsurf, (self.pos.x - 5, self.pos.y - 10))
 
     def drag_and_move(self):
         left, mid, right = pygame.mouse.get_pressed(num_buttons=3)
