@@ -1,8 +1,4 @@
-import pygame
-import random
-import math
-
-NODE_RADIUS = 30
+from Globals import *
 
 class Node:
     is_colliding = False
@@ -11,12 +7,10 @@ class Node:
         self.id = "ID: " + id
         self.radius = NODE_RADIUS
         self.pos = pos
-        self.color = color
-             
+        self.color = color         
 
     def Update(self, dt):
-        self.drag_and_move()
-            
+        self.drag_and_move()         
 
     def Draw(self, screen): 
         pygame.draw.circle(screen, self.color, self.pos, self.radius)

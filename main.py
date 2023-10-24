@@ -1,21 +1,15 @@
-import pygame
-import time
+from Globals import *
 from App import App
-
-X_RES = 1600
-Y_RES = 900  
 
 pygame.init()
 
 myapp = App()
 myapp.Load()
 
-
 screen = pygame.display.set_mode((X_RES, Y_RES))
 clock = pygame.time.Clock()
 running = True
 dt = 0
-
 
 while running:
     for event in pygame.event.get():

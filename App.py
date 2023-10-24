@@ -1,17 +1,5 @@
+from Globals import *
 from Node import Node
-import os
-import pygame
-import random
-
-NODE_COUNT = 12
-NODES_FILE_NAME = "nodes_map.csv"
-ADJ_MATRIX_FILE_NAME = "adj_matrix_map.csv"
-
-COLORS = ["black", "blue", "cyan", "gold", "gray", "green", 
-          "orange", "purple", "red", "violet", "yellow", "white"]
-
-PATH_COLOR = "red"
-EDGE_COLOR = "white"
 
 class App:
     nodes = []
@@ -24,19 +12,16 @@ class App:
         pass
             
     def Load(self):
-        self.nodes = self.read_in_nodes_from_file(NODES_FILE_NAME)
-        self.adj_matrix = self.read_adj_matrix_from_file(ADJ_MATRIX_FILE_NAME)
+        self.nodes = self.read_in_nodes_from_file(NODES_FILE_NAME_PATH)
+        self.adj_matrix = self.read_adj_matrix_from_file(ADJ_MATRIX_FILE_NAME_PATH)
         self.path_matrix = self.apply_path_to_path_matrix()
         
-
     def Update(self, dt):
         for node in self.nodes: node.Update(dt)
-
-
+        
     def Draw(self, screen):
         self.draw_edges(screen)
         for node in self.nodes: node.Draw(screen)
-            
 
     def draw_edges(self, screen):
         for i in range(len(self.adj_matrix)):
