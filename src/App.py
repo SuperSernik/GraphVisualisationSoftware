@@ -90,7 +90,7 @@ class App:
             self.save_nodes_to_file()
 
         if keys[pygame.K_l]:
-            self.nodes = self.read_in_nodes_from_file(SAVED_NODES_FILE)
+            self.nodes = self.read_in_nodes_from_file(SAVED_NODES_FILE_PATH)
     
     def create_random_adj_matrix(self, number_of_nodes):
         out_matrix = [[0 for x in range(number_of_nodes)] for y in range(number_of_nodes)] 
@@ -143,7 +143,7 @@ class App:
         f.close()
 
     def load_nodes_from_saves(self):
-        self.nodes = self.read_in_nodes_from_file(SAVED_NODES_FILE)
+        self.nodes = self.read_in_nodes_from_file(SAVED_NODES_FILE_PATH)
 
 
              
