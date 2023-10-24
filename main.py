@@ -13,7 +13,7 @@ myapp.Load()
 
 mymenu = Menu()
 
-screen = pygame.display.set_mode((X_RES, Y_RES), pygame.RESIZABLE)
+screen = pygame.display.set_mode((X_RES, Y_RES), pygame.RESIZABLE, pygame.SCALED)
 clock = pygame.time.Clock()
 running = True
 dt = 0
