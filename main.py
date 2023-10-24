@@ -1,10 +1,14 @@
 from Globals import *
 from App import App
+from Button import Button
+from Menu import Menu
 
 pygame.init()
 
 myapp = App()
 myapp.Load()
+
+mymenu = Menu()
 
 screen = pygame.display.set_mode((X_RES, Y_RES))
 clock = pygame.time.Clock()
@@ -15,11 +19,16 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+            break
 
     screen.fill("black")
 
     myapp.Update(dt)
     myapp.Draw(screen)
+
+    mymenu.Update(dt, myapp)
+    mymenu.Draw(screen)
+
 
     pygame.display.flip()
 

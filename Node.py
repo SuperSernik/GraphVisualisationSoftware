@@ -4,7 +4,7 @@ class Node:
     is_colliding = False
 
     def __init__(self, id = "x", color="white", pos=pygame.Vector2(100, 100)):
-        self.id = "ID: " + id
+        self.id = id
         self.radius = NODE_RADIUS
         self.pos = pos
         self.color = color         
@@ -24,7 +24,7 @@ class Node:
         
     def write_text(self, screen):
         font = pygame.font.SysFont("Arial", 20)
-        txtsurf = font.render(self.id, True, "black")
+        txtsurf = font.render("ID" + self.id, True, "black")
         screen.blit(txtsurf, (self.pos.x - 20, self.pos.y - 10))
 
     def drag_and_move(self):

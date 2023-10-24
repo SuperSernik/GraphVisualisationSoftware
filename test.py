@@ -57,7 +57,14 @@ matB = [matA for i in range(0, len(matA))]
 
 
 matX =[[0 for i in range(0, NODE_COUNT)] for i in range(0, NODE_COUNT)]
-print(matX)
-print(len(matX))
 
-#print(read_adj_matrix_from_file("adj_matrix.csv"))
+
+def save_nodes_to_file():
+    f = open("SAVED_MAT.csv", "w")
+    lines = []
+
+    lines[0] = "ID,color,xpos,ypos"
+
+
+    f.writelines(lines)
+    f.close()

@@ -18,6 +18,7 @@ class App:
         
     def Update(self, dt):
         for node in self.nodes: node.Update(dt)
+        self.keybaord_controler()
         
     def Draw(self, screen):
         self.draw_edges(screen)
@@ -78,11 +79,18 @@ class App:
         return out_path_matrix
 
 
-    def set_adj_matrix(self):
+    def keybaord_controler(self):
         keys=pygame.key.get_pressed()
 
         if keys[pygame.K_SPACE]:
             return self.create_random_adj_matrix(NODE_COUNT)
+        
+        if keys[pygame.K_s]:
+            print("Saving")
+            self.save_nodes_to_file()
+
+        if keys[pygame.K_l]:
+            self.nodes = self.read_in_nodes_from_file(SAVED_NODES_FILE)
     
     def create_random_adj_matrix(self, number_of_nodes):
         out_matrix = [[0 for x in range(number_of_nodes)] for y in range(number_of_nodes)] 
@@ -121,6 +129,22 @@ class App:
             new_arr = []
         f.close()
         return out_mat
+    
+    def save_nodes_to_file(self):
+        f = open("SAVED_MAT.csv", "w")
+        lines = []
+        lines.append("ID,color,xpos,ypos\n")
+
+        for node in self.nodes:
+            line = f"{node.id},{node.color},{int(node.pos.x)},{int(node.pos.y)}\n"
+            lines.append(line)
+
+        f.writelines(lines)
+        f.close()
+
+    def load_nodes_from_saves(self):
+        self.nodes = self.read_in_nodes_from_file(SAVED_NODES_FILE)
+
 
              
 
