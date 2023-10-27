@@ -12,7 +12,7 @@ def from_connections_to_adj_matrix(connections):
     return out_path_matrix
 
 def write_mat_to_file(mat):
-    f = open("saved_mat.csv", "w")
+    f = open("connectionsMat.csv", "w")
     for i in range(len(mat)):
         for j in range(len(mat)):
             if(j == len(mat)-1):
