@@ -1,6 +1,7 @@
 from Globals import *
 from Node import Node
 from copy import deepcopy
+from Util import Queue
 
 class App:
     nodes: list = []
@@ -199,8 +200,26 @@ class App:
             self.apply_path_to_path_matrix(self.path)
              
 
-        
+    def dijkstra_pathfind(self, startnode, endnode):
+        out_path = []
+
+
+
+        return out_path
+    
+    def get_weight_by_ids(self, start, end):
+        out_weight = 9999
+        row = self.node_ids.index(start)
+        col = self.node_ids.index(end)
+        if(self.adj_matrix[row][col] == 0):
+            return out_weight
+        else:
+            return self.adj_matrix[row][col]
+
         
 
 if __name__ == "__main__":
-    ...
+    app = App()
+    app.Load()
+    print(app.get_weight_by_ids("a", "g"))
+    

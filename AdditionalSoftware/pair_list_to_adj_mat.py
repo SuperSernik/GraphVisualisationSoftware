@@ -4,11 +4,16 @@ NODE_IDS = ["a", "b", "c", "d", "e", "f", "g", "h", "i" ,"j", "k", "l"]
 def from_connections_to_adj_matrix(connections):
     out_path_matrix = [[0 for i in range(0, NODE_COUNT)] for i in range(0, NODE_COUNT)]
     for i in range(0, len(connections)):
-        start, end = connections[i][0], connections[i][1]
+        start, end, weight = connections[i][0], connections[i][1], connections[i][2]
         x = NODE_IDS.index(start)
         y = NODE_IDS.index(end)
-        out_path_matrix[x][y] = 1
-        out_path_matrix[y][x] = 1
+        if (weight == ""):
+            out_path_matrix[x][y] = 1
+            out_path_matrix[y][x] = 1
+        else:
+            out_path_matrix[x][y] = weight
+            out_path_matrix[y][x] = weight
+
     return out_path_matrix
 
 def write_mat_to_file(mat):
@@ -26,7 +31,7 @@ def main():
     inputting = True
     connections = []
     while(inputting):
-        data = input("Input a pair: ")
+        data = input("Input a pair & weight: ")
 
         if(data == "done"):
             matX = from_connections_to_adj_matrix(connections)
@@ -34,9 +39,9 @@ def main():
             print("Saved file!")
             inputting = False
         else:  
-            conn = [data[0], data[1]]
+            conn = [data[0], data[1], data[2]]
             connections.append(conn)
-            print(f"start: {conn[0]}, end: {conn[1]}")
+            print(f"start: {conn[0]}, end: {conn[1]}, weight: {conn[2]}")
             
 if __name__ == "__main__":
     main()
