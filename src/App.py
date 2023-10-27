@@ -4,13 +4,15 @@ from copy import deepcopy
 from Util import Queue
 
 class App:
+
     nodes: list = []
     node_ids: list = []
     adj_matrix = [[]]
     path_matrix = [[]]
     map_path = ["a", "e", "i", "j", "h", "l"]
     circle_path = ["a", "b", "c", "e"]
-    path = ["a", "c", "h", "k", "j"]
+    tree_path = ["a", "c", "h", "k", "j"]
+    path = []
 
     def _init_(self):
         pass
@@ -198,10 +200,16 @@ class App:
             self.nodes = self.read_nodes_from_file("saves\\nodes_tree.csv")
             self.adj_matrix = self.read_adj_matrix_from_file("saves\\adj_matrix_tree.csv")
             self.apply_path_to_path_matrix(self.path)
-             
+    
+    # Function below help with pathfinding
 
     def dijkstra_pathfind(self, startnode, endnode):
         out_path = []
+        dist_from_startnode = [9999 for i in range(len(self.nodes))]
+        prev_node = ["" for i in range(len(self.nodes))]
+        node_queue = Queue()
+        for node in self.node_ids:
+            Queue.enQ(node)
 
 
 
@@ -215,11 +223,24 @@ class App:
             return out_weight
         else:
             return self.adj_matrix[row][col]
+        
+
+    def get_nodes_connected_to_a_node(self, root_node):
+        out_nodes = []
+        row = self.node_ids.index(root_node)
+        for i in range(len(self.adj_matrix[row])):
+            if(self.adj_matrix[row][i] != 0):
+                out_nodes.append(self.node_ids[i])
+        return out_nodes
+
+        
+    
 
         
 
 if __name__ == "__main__":
     app = App()
     app.Load()
-    print(app.get_weight_by_ids("a", "g"))
+    print(app.get_nodes_connected_to_a_node("g"))
+    print(["" for i in range(len(app.nodes))])
     
